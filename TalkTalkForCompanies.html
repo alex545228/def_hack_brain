@@ -38,24 +38,26 @@
             <a href=""><img id="user-photo" class="user-photo" src="images\пользователь.png" alt="User Photo"></a>
             <div class="head">
                 <h1>Вконтакте</h1>
-                <button>Мнение о вашей компании</button>
+                <button>Карта пользователя</button>
                 <button>Аналитика</button>
             </div>
         </header>
         <div class="content" id="overview">
-            <h2>Кому были осуществленны контакты</h2>
+            <h2>Все о вашей компании</h2>
             <div class="references">
-                <div><button>звонок</button><p>100</p>
-                    <input type="checkbox">
-                </div>
-                <div><button>смс</button><p>80</p><input type="checkbox" /></div>
-                <div><button>push</button><p>60</p><input type="checkbox" /></div>
-                <div><button>история</button><p>60</p><input type="checkbox" /></div>
+                <div><button>все</button><p>100</p><input type="checkbox" /></div>
+                <div><button>новости</button><p>80</p><input type="checkbox" /></div>
+                <div><button>видео</button><p>60</p><input type="checkbox" /></div>
+                <div><button>подкасты</button><p>60</p><input type="checkbox" /></div>
+                <div><button>комментарии</button><p>60</p><input type="checkbox" /></div>
+                <div><button>группы</button><p>60</p><input type="checkbox" /></div>
+                <div><button>хештеги</button><p>70</p><input type="checkbox" /></div>
+                <div><button>поделились</button><p>60</p><input type="checkbox" /></div>
             </div>
         </div>
         <div class="list-header">
             <div class="chosen-sort"><a href="">По рейтингу</a></div>
-            <div class="list-header"><h1>Карта пользователя</h1></div>
+            <div class="list-header"><h1>Мнения о вашей компании</h1></div>
             <div class="period-choice-container">
                 <div class="period-choice-btn chosen"><a href="">дни</a></div>
                 <div class="period-choice-btn"><a href="">недели</a></div>
@@ -64,29 +66,14 @@
         </div>
         <div id="list">
             <div class="content">
-                <div class="content-grid">
-                    <button>звонок</button>
-                    <button>смс</button>
-                    <button>push</button>
-                    <button>история</button>
-                    <button>положительные</button>
+                <div class="report-header">
+                    <button>новости</button>
+                    <h2>Компания сделала новое предложение </h2>
                     <p>18-10-2021   20:00</p>
-                    <div class="info">
-                        <h2>Троцик Мария Павловна</h2>
-                        <h3>ФИО</h3>
-                    </div>
-                    <div class="info">
-                        <h2>жен</h2>
-                        <h3>пол</h3>
-                    </div>
-                    <div class="info">
-                        <h2>28</h2>
-                        <h3>возраст</h3>
-                    </div>
-                    <div class="info">
-                        <h2>+79857514136</h2>
-                        <h3>номер телефона</h3>
-                    </div>
+                </div>
+                <div class="report-header">
+                    <p>Повседневная практика показывает, что консультация с широким активом играет важную роль в формировании соответствующий условий активизации. Задача организации, в особенности же дальнейшее развитие различных форм деятельности способствует подготовки и реализации дальнейших направлений развития. </p>
+                    <button>положительный</button>
                 </div>
                 <div class="bottom-panel">
                     <a href="">смотреть</a>
@@ -98,29 +85,14 @@
                 </div>
             </div>
             <div class="content">
-                <div class="content-grid">
-                    <button>звонок</button>
-                    <button>смс</button>
-                    <button>push</button>
-                    <button>история</button>
-                    <button>положительные</button>
+                <div class="report-header">
+                    <button>новости</button>
+                    <h2>Компания сделала новое предложение </h2>
                     <p>18-10-2021   20:00</p>
-                    <div class="info">
-                        <h2>Троцик Мария Павловна</h2>
-                        <h3>ФИО</h3>
-                    </div>
-                    <div class="info">
-                        <h2>жен</h2>
-                        <h3>пол</h3>
-                    </div>
-                    <div class="info">
-                        <h2>28</h2>
-                        <h3>возраст</h3>
-                    </div>
-                    <div class="info">
-                        <h2>+79857514136</h2>
-                        <h3>номер телефона</h3>
-                    </div>
+                </div>
+                <div class="report-header">
+                    <p>Повседневная практика показывает, что консультация с широким активом играет важную роль в формировании соответствующий условий активизации. Задача организации, в особенности же дальнейшее развитие различных форм деятельности способствует подготовки и реализации дальнейших направлений развития. </p>
+                    <button>положительный</button>
                 </div>
                 <div class="bottom-panel">
                     <a href="">смотреть</a>
@@ -149,27 +121,27 @@
             </li>
             <li>По рейтингу: </li>
             <li>
-                <input type="range" min="0" max="20" value="10">
+                <input type="range" min="0" max="10" value="5">
                 <div class="range-markings">
                     <p>0</p>
+                    <p>1</p>
+                    <p>2</p>
+                    <p>4</p>
+                    <p>5</p>
+                    <p>6</p>
+                    <p>7</p>
+                    <p>8</p>
+                    <p>9</p>
                     <p>10</p>
-                    <p>20</p>
                 </div>
             </li>
-            <li>По возрасту: </li>
+            <li>Сколько раз поделились: </li>
             <li>
                 <input type="range" min="0" max="100" value="50">
                 <div class="range-markings">
                     <p>0</p>
-                    <p>50</p>
-                    <p>100</p>
-                </div>
-            </li>
-            <li>По полу: </li>
-            <li>
-                <div class="choice">
-                    <button>жен</button>
-                    <button>муж</button>
+                    <p>50млн</p>
+                    <p>100млн</p>
                 </div>
             </li>
             <li>По лайкам: </li>
@@ -183,5 +155,4 @@
             </li>
         </div>
     </div>
-    </body>
 </html>
