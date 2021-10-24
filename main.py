@@ -1,0 +1,44 @@
+from api_functions import *
+import json
+import os
+
+if os.path.exists('data/results'):
+    print('Директория существует\n')
+else:
+    os.makedirs('data/results')
+
+
+key_word = input('Введите ключевое слово поиска: ')
+number_of_groups = int(input('Сколько групп нужно проанализировать?\n>>> '))
+
+
+groups = search_groups(key_word, number_of_groups)
+with open(f'data/groups_{key_word}.json', 'w', encoding='utf-8') as file:
+    json.dump(groups, file, ensure_ascii=False, indent=3)
+
+
+fin_groups_dict = {}
+for group in groups:
+    if group['is_closed'] == 1:
+        continue
+    else:
+        fin_groups_dict[group['id']] = (group['name'], get_group_info(group['id']))
+        print(group['name'])
+
+
+with open(f'data/groups_{key_word}_fin.json', 'w', encoding='utf-8') as file:
+    json.dump(fin_groups_dict, file, ensure_ascii=False, indent=3)
+
+
+counter = 1
+for key, value in fin_groups_dict.items():
+    try:
+        mean_dict = {value[0]: get_members(int(key))}
+    except KeyError:
+        continue
+    with open(f'data/results/{value[0]}_{counter}_users.json', 'w', encoding='utf-8') as file:
+        json.dump(mean_dict, file, ensure_ascii=False, indent=3)
+    counter += 1
+
+
+print('\nДанные собраны!\n')
