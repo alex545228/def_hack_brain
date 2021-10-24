@@ -91,7 +91,6 @@ a {
   width: 100%;
 }
 
-
 .top-nav li a {
   display: block;
   width: 100%;
@@ -99,11 +98,6 @@ a {
   transition: 0.4s;
   border-radius: 0.1em;
   font-weight: 700;
-}
-.top-nav li a:hover {
-    transform:scale(1.1);
-    width: 100%;
-    height: 100%;
 }
 
 header{
@@ -181,6 +175,7 @@ button{
   font-weight: lighter;
   margin: 0.5em 1em;
   font-size: clamp(5px, 1.1em, 1.2em);
+  box-shadow: 0 5px 5px 1px #48CAE4AC;
 }
 
 .head{
@@ -425,4 +420,9 @@ li button{
 .report-header{
   display: flex;
   justify-content: space-between;
+}
+#logo{
+  color: white;
+  font-weight: 50;
+  font-family: 'Prata';
 }
