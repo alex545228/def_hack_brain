@@ -180,8 +180,9 @@ button{
 
 .head{
   display: grid;
-  grid-template-columns: 4fr 2fr 1fr;
+  grid-template-columns: 6fr 2fr 1fr;
   padding: 0 1em;
+  grid-gap: .5em;
 }
 
 h1{
@@ -443,4 +444,30 @@ li button{
 
 #filter-header button{
   box-shadow: 0 0 0 0;
+}
+
+.report-header p{
+  margin-right: 1.5em;
+}
+
+#overview h2{
+  margin-left: 1.5em;
+}
+
+.head a{
+  background-color: #03045E;
+  color: #48CAE4;
+  padding: .3em 0.5em;
+  border: 0.1px solid rgba(0,0,0,1);
+  border-radius: 50px;
+  font-weight: lighter;
+  margin: 1em 0;
+  font-size: clamp(5px, 1.1em, 1.2em);
+  width: 100%;
+  text-align: center;
+}
+
+.menu{
+  width:10em;
+  text-align: center;
 }
