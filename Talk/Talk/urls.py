@@ -23,18 +23,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('User_guide/', include('catalog.urls')),
+    path('', RedirectView.as_view(url='catalog/', permanent=True)),
+    path('', include('catalog.urls')),
 ]
 #Use include() to add paths from the catalog application
-
-
-urlpatterns += [
-    path('User_guide/', include('catalog.urls')),
-]
-
-
-urlpatterns += [
-   path('', RedirectView.as_view(url='catalog/', permanent=True)),
-]
 
 
 

@@ -1,6 +1,7 @@
 from django.urls import path
-from . import views
+from .views import *
 
 urlpatterns = [
-
+    path('catalog/', user_cards),
+    path('opinions/', for_companies)
 ]

@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from psycopg2 import connect, extensions, sql
 
 
 def main():
