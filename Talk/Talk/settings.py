@@ -52,10 +52,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'Talk.urls'
 
+
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['/catalog/Templates/User_profile.html'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
