@@ -58,7 +58,7 @@ ROOT_URLCONF = 'Talk.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/catalog/Templates/User_profile.html'],
+        'DIRS': ['/catalog/Templates/TalkTalk.html'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
