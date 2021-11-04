@@ -1,81 +1,213 @@
 import requests
 from time import sleep
+from fake_useragent import UserAgent
+import random
 
 token = 'токен'
 
 
-def search_groups(category, count=5):
-    """Поиск групп по ключевому слову.
-    Параметром count задается необходимое число групп.
-    Возвращается словарь"""
-
-    response = requests.get('https://api.vk.com/method/groups.search',
-                            params={
-                                'q': category,
-                                'count': count,
-                                'access_token': token,
-                                'v': 5.81
-                            })
-    data = response.json()['response']['items']
-    return data
+# ===========================================================================================================
 
 
-def get_group_info(group_id):
-    """Возвращает информацио о сообществе.
-    Fields возможно расширить, получив больше инормации о сообществе"""
+def get_user_info(user_id):
+    """Возвращает подробную информацию о пользователе, поля fields редактируются"""
 
-    response = requests.get('https://api.vk.com/method/groups.getById',
-                            params={
-                                'group_id': group_id,
-                                'fields': 'activity',
-                                'access_token': token,
-                                'v': 5.81
-                            })
-    data = response.json()['response'][0]['activity']
-    return data
+    ua = UserAgent(verify_ssl=False)
+    headers = {'user-agent': ua.random}
+
+    params = {
+        'user_ids': user_id,
+        'fields': 'id, first_name, last_name, sex, dbith, city, country, deactivated, relation, \
+            contacts, about, activities, career, interests, personal, connections',
+        'access_token': random.choice(token),
+        'v': 5.81
+    }
+
+    response = requests.get('https://api.vk.com/method/users.get', params=params, headers=headers)
+    sleep(0.15)
+
+    try:
+        data = response.json()['response'][0]
+        try:
+            if data['deactivated'] == 'deleted' or data['deactivated'] == 'banned':
+                print('Данный пользователь удален или забанен')
+                return 0
+        except KeyError:
+            return data
+    except KeyError:
+        print('Данные пользователя не извлечены')
+        return 0
+
+
+# ===========================================================================================================
 
 
 def get_max_offset(group):
-    """Возвращает количество участников сообщества. Истользуется запрос к API, результат делим
-    на 1000, т.к. это максимальное число участников, чьи данные можно получить.
-    Может произойти слующая ситуация:
-    - у сообщества заккрыты участники, соответственно получаем ошибку."""
+    """Возвращает максимальный offset, для сбора информации об id пользователей группы"""
 
-    count = requests.get('https://api.vk.com/method/groups.getMembers',
-                         params={
-                             'group_id': group,
-                             'sort': 'id_desc',
-                             'offset': 0,
-                             'fields': 'last_seen, activity',
-                             'access_token': token,
-                             'v': 5.81
-                         })
-    data = count.json()['response']['count']
-    print(data)
-    sleep(0.34)
+    ua = UserAgent(verify_ssl=False)
+    headers = {'user-agent': ua.random}
+
+    params = {
+        'group_id': group,
+        'sort': 'id_desc',
+        'offset': 0,
+        'fields': 'last_seen, activity',
+        'access_token': random.choice(token),
+        'v': 5.81
+    }
+    response = requests.get('https://api.vk.com/method/groups.getMembers', params=params, headers=headers)
+
+    try:
+        data = response.json()['response']['count']
+        print(data)
+    except KeyError:
+        return 0
+
     return data // 1000
 
 
-def get_members(group_id):
-    """Возвращает данные всех участников сообщества. Собираем по 1000 пользователей, потом обновляем
-    offset. Максимальный offset находится по функции get_max_offset. Возвращается список со словарями."""
+# ===========================================================================================================
 
-    main_data = []
-    offset = 0
+
+def get_members_id(group):
+    """Возвращает кортеж с id всех пользователей группы"""
+
+    ua = UserAgent(verify_ssl=False)
+    headers = {'user-agent': ua.random}
+
     count = 1000
-    max_offset = get_max_offset(group_id)
+    offset = 0
+    max_offset = get_max_offset(group)
+
+    result = []
     while offset < max_offset:
-        response = requests.get('https://api.vk.com/method/groups.getMembers',
-                                params={
-                                    'group_id': group_id,
-                                    'offset': offset,
-                                    'count': count,
-                                    'fields': 'first_name, last_name, sex, bdate, country, city, contacts',
-                                    'access_token': token,
-                                    'v': 5.81
-                                })
-        mean_data = response.json()['response']
-        main_data.append(mean_data)
-        sleep(0.34)
-        offset += 1000
-    return main_data
+        params = {
+            'group_id': group,
+            'count': count,
+            'fields': '',
+            'offset': offset,
+            'access_token': token,
+            'v': 5.81
+        }
+        response = requests.get('https://api.vk.com/method/groups.getMembers', params=params, headers=headers)
+
+        try:
+            data = response.json()['response']['items']
+            for user_id in data:
+                result.append(user_id)
+            sleep(0.15)
+            offset += 1
+        except KeyError:
+            print('Данные не извлечены')
+
+    return tuple(result)
+
+
+# ===========================================================================================================
+
+
+def get_group_info(groun_name):
+    """Возвращает информацию о группе"""
+
+    ua = UserAgent(verify_ssl=False)
+    headers = {'user-agent': ua.random}
+
+    params = {
+        'group_id': groun_name,
+        'fields': 'activity',
+        'access_token': random.choice(token),
+        'v': 5.81
+    }
+    response = requests.get('https://api.vk.com/method/groups.getById', params=params, headers=headers)
+
+    try:
+        data = response.json()['response'][0]['activity']
+    except KeyError:
+        return 'Даннные не извлечены'
+
+    return data
+
+
+# ===========================================================================================================
+
+
+def search_groups(key_word, count):
+    """Возвращает список со словарями групп, подходящих под введенную категорию"""
+
+    ua = UserAgent(verify_ssl=False)
+    headers = {'user-agent': ua.random}
+
+    params = {
+        'q': key_word,
+        'count': count,
+        'access_token': random.choice(token),
+        'v': 5.81
+    }
+    response = requests.get('https://api.vk.com/method/groups.search', params=params, headers=headers)
+
+    main_groups_dict = {}
+    try:
+        data = response.json()['response']['items']
+
+        for group in range(len(data)):
+            if data[group]['is_closed'] == 1:
+                continue
+            else:
+                id = data[group]['id']
+                name = data[group]['name']
+                screen_name = data[group]['screen_name']
+                activity = get_group_info(data[group]['id'])
+                main_groups_dict[id] = [name, screen_name, activity, key_word]
+
+        return main_groups_dict
+
+
+    except KeyError:
+        print('Данные о сообществе не извлечены')
+        return 0
+
+
+# ===========================================================================================================
+
+
+def get_users_subscriptions(user_id):
+    """Возвращает информацию о подписках пользователя"""
+
+    ua = UserAgent(verify_ssl=False)
+    headers = {'user-agent': ua.random}
+
+    params = {
+        'user_id': user_id,
+        'access_token': random.choice(token),
+        'v': 5.81
+    }
+    response = requests.get('https://api.vk.com/method/groups.get', params=params, headers=headers)
+
+    data = response.json()['response']['items']
+    groups_activity = {}
+    for group_id in data:
+        try:
+            group_type = get_group_info(group_id)
+            if group_type not in groups_activity:
+                groups_activity[group_type] = 1
+            else:
+                groups_activity[group_type] += 1
+        except KeyError:
+            continue
+
+    result = []
+    max_value = 0
+    for key, value in groups_activity.items():
+        if key == 'Открытая группа' or key == 'Даннные не извлечены':
+            continue
+        else:
+            if max_value < value:
+                max_value = value
+                max_key = key
+                res_dict = {max_key: max_value}
+                result.insert(0, res_dict)
+            else:
+                continue
+
+    return result
